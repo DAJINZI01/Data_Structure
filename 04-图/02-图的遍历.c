@@ -42,20 +42,28 @@ typedef struct ENode{// 边节点
 			if(!visited[W])
 				DEF(W);
 	}
+	若有N个顶点，E条边，时间复杂度是
+		用邻接表存储图，有O(N+2E)
+		用邻接矩阵存储图，有O(N^2)
 
 	void BFS(vertex V){
-		visited[V] = true;
+		visited[V] = true; // 访问过了
 		enQueue(V, Q);
 		while(!isEmpty(Q)){
 			V = deQueue(Q);
 			for(V 的每个邻接点 W){
-				if(!visited[W]){
+				if(!visited[W]){ // 如果没有被访问过的
 					visited[W] = true;
 					enQueue(W, Q);	
 				}
 			}
 		}
 	}
+	若有N个顶点，E条边，时间复杂度是
+		用邻接表存储图，有O(N+2E)
+		用邻接矩阵存储图，有O(N^2)
+
+	为什么需要两种遍历？
 */
 
 int visited[1024] = {false};
