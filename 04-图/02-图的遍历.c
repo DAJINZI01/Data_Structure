@@ -66,7 +66,7 @@ typedef struct ENode{// 边节点
 	为什么需要两种遍历？
 */
 
-int visited[1024] = {false};
+nt visited[1024] = {false};
 
 typedef void(*VISIT)(Vertex V);
 void visit(Vertex V){ printf("<%d>\n", V); }

@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define true 1
+#define false 0
 #define MaxVertexNum 1024
+#define MaxSize 1024
 typedef int WeightType;
 typedef int DataType;
 typedef int Vertex; /*用顶点的下标表示顶点，为整型*/
@@ -59,7 +62,6 @@ MGraph* BuildGraph(){
 	if(!E) return NULL;
 	if(Graph->Ne){
 		for(i = 0; i < Graph->Ne; i++){
-			printf("Graph->Ne: %d\n", Graph->Ne);
 			printf("please input an Edge's information(V1, V2, W): ");
 			scanf("%d, %d, %d", &E->V1, &E->V2, &E->Weight);
 			InsertEdge(Graph, E);
@@ -69,10 +71,65 @@ MGraph* BuildGraph(){
 	return Graph;
 }
 
+
+int DFS_visited[1024] = {false};
+int BFS_visited[1024] = {false};
+
+typedef void(*VISIT)(Vertex V);
+void visit(Vertex V){ printf(" <%d> ", V); }
+
+void DFS(MGraph *Graph, Vertex S, VISIT visit){
+	// 类似于树的先序遍历
+	visit(S); DFS_visited[S] = true;	
+	Vertex V;
+	for(V = 0; V < Graph->Nv; ++V){
+		// 如果V没有被访问，并且V是S的邻接点
+		if(!DFS_visited[V] && Graph->G[S][V])	
+			DFS(Graph, V, visit);
+	}
+}
+
+void BFS(MGraph *Graph, Vertex S, VISIT visit){
+	Vertex V, W;
+	Vertex queue[MaxSize];
+	int front = 0, rear = 0;
+
+	/*根节点入队列*/
+	rear = (rear + 1) % MaxSize;
+	queue[rear] = S;
+	/*访问（print）节点*/
+	visit(S); BFS_visited[S] = true; /*标记节点S已被访问*/
+
+	while(front != rear){ /*当队列不空的时候*/	
+		/*节点出队列*/
+		front = (front + 1) % MaxSize;
+		V = queue[front];
+
+		for(W = 0; W < Graph->Nv; W++){ /*遍历V的所有的邻接点 一行*/
+			if(!BFS_visited[W] && Graph->G[V][W]){ /*如果没有被访问过，并且有边*/
+				/*访问（print）节点*/
+				/*先访问，在放入队列，与树的层次遍历不同, 避免一个节点的重复放入*/
+				/*0 -> 1(1); 0 -> 2(2); 1 -> 2(2)*/
+				visit(W); BFS_visited[W] = true; 
+				/*节点入队列*/
+				rear = (rear + 1) % MaxSize;
+				queue[rear] = W;
+			}
+		}
+	}
+}
+
+
 int main()
 {
 	printf("create a Graph...\n");
 	MGraph *Graph = BuildGraph();
+	printf("DFS: ");
+	DFS(Graph, 0, visit);
+	printf("\n----------\n");
+	printf("BFS: ");
+	BFS(Graph, 0, visit);
+	printf("\n----------\n");
 
 	return 0;
 }
