@@ -50,6 +50,8 @@ LGraph* CreateGraph(int vertexNum){
 	/*没有边，顶点表的firstEdge=NULL*/
 	for(i = 0; i < Graph->Nv; ++i)
 		Graph->adjList[i].firstEdge = NULL;
+
+	return Graph;
 }
 
 // 向LGraph中插入边
@@ -69,8 +71,8 @@ void InsertEdge(LGraph *Graph, Edge *E){
 	newNode->adjVex = E->V1;
 	newNode->weight = E->weight;
 	// v1插入v2的表头
-	newNode->nextArc  = Graph->adjList[E->v2].firstEdge;
-	Graph->adjList[E->v2].firstEdge = newNode;// 头插法
+	newNode->nextArc  = Graph->adjList[E->V2].firstEdge;
+	Graph->adjList[E->V2].firstEdge = newNode;// 头插法
 }
 
 LGraph* BuildGraph(){
@@ -99,12 +101,16 @@ LGraph* BuildGraph(){
 }
 typedef void (*VISIT)(Vertex S );
 void visit(Vertex S){printf(" <%d> ", S);}
-int DFS_visited[MaxSize] = {false};
-void DFS(LGraph *Graph, Vertex S, VISIT visit){
+int DFS_visited[MaxSize] = {false}; /* DFS_visited[]为全局变量，已经初始化为false */
+void DFS(LGraph *Graph, Vertex V, VISIT visit){
+	/* 以V为出发点对邻接表存储的图Graph进行DFS搜索 */
 	if(!Graph || !visit) return;
-	/*访问（print）顶点*/
-	visit(S); DFS_visited[S] = true; // 标记访问过了
-	for
+	ArcNode *W;
+	/*访问（print）第S个顶点*/
+	visit(V); DFS_visited[V] = true; // 标记访问过了
+	for(W = Graph->adjList[V].firstEdge; W; W = W->nextArc) /*对V的每个邻接点W->adjVex*/
+		if(!DFS_visited[W->adjVex]) /*如果W->adjVex没有访问过*/
+			DFS(Graph, W->adjVex, visit); /*则递归访问之*/	
 }
 
 int main()
