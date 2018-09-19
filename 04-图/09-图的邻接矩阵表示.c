@@ -101,14 +101,14 @@ void BFS(MGraph *Graph, Vertex S, VISIT visit){
 	visit(S); BFS_visited[S] = true; /*标记节点S已被访问*/
 
 	while(front != rear){ /*当队列不空的时候*/	
-		/*节点出队列*/
+		/*顶点出队列*/
 		front = (front + 1) % MaxSize;
 		V = queue[front];
 
 		for(W = 0; W < Graph->Nv; W++){ /*遍历V的所有的邻接点 一行*/
 			if(!BFS_visited[W] && Graph->G[V][W]){ /*如果没有被访问过，并且有边*/
 				/*访问（print）节点*/
-				/*先访问，在放入队列，与树的层次遍历不同, 避免一个节点的重复放入*/
+				/*先访问，再放入队列，与树的层次遍历不同, 避免一个节点的重复放入*/
 				/*0 -> 1(1); 0 -> 2(2); 1 -> 2(2)*/
 				visit(W); BFS_visited[W] = true; 
 				/*节点入队列*/
