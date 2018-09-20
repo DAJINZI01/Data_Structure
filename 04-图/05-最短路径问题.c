@@ -35,5 +35,26 @@
  *      若路径是按照递增（非递减）的顺序生成的，则：
  *      	真正的最短路径必须只经过S中的顶点（why？）
  *      	每次从未收录的顶点中选一个dist最小的收录（贪心）
- *      	增加一个v进入S，可能影响另外一个w的dist值！
+ *      	增加一个v进入S，可能影响另外一个w的dist值！换句话说，v进入S后，能影响的只有v的邻接点
+ *      	dist[W] = min{dist[W], dist[v]+<v, w>的权重}
+ *
+ *      void Dijkstra(Vertex s){
+ *		while(1) {
+ *			V = 未收录顶点中dist最小者;
+ *			if(这样的V不存在) break;
+ *			collected[V] = true;
+ *			for(V的每个邻接点W){
+ *				if(collected[W] == false)
+ *					if(dist[V] + E<v, w> < dist[W]){
+ *						dist[W] = dist[V] + E<v, w>;
+ *						path[W] = V;
+ *					}
+ *
+ *			}
+ *		}
+ *      }// 不能解决有负边的情况
+ *
+ *      方法1：直接扫描所有为收录顶点O(V^2 + E) 对于稠密图效果好
+ *      方法2：将dist存在最小堆中 O(log(V)) 对于稀疏图效果好
+ *      	T = O(Vlog(V) + Elog(V)) = O(Elog(V))
  * */
