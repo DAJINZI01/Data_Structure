@@ -60,7 +60,7 @@ void Check_connection(SetType S){
 	scanf("%d %d", &u, &v);
 	Root1 = Find(S, u-1);
 	Root2 = Find(S, v-1);
-	if(Root1 != Root2) printf("--yes--\n"); 
+	if(Root1 == Root2) printf("--yes--\n"); 
 	else printf("--no--\n");
 }
 
@@ -83,6 +83,8 @@ int main()
 	scanf("%d", &n);
 	Initialization(S, n);
 	do{
+		getchar();
+		printf("please input the one of I, C, S: ");
 		scanf("%c", &in);
 		switch(in){
 			case 'I': Input_connection(S); break;	

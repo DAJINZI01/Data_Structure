@@ -19,8 +19,8 @@ void printArr(ElementType a[], int n){
 
 void Bubble_sort(ElementType a[], int n){
 	int i, j, flag;
-	int temp = 0;
-	for(i = n - 1; i >=0; i--){// 关于j的循环
+	int temp;
+	for(i = n - 1; i >= 0; i--){// 关于j的循环
 		flag = 0;
 		for(j = 0; j < i; ++j){// 一趟冒泡
 			if(a[j] > a[j + 1]){// 交换元素的位置
@@ -33,7 +33,7 @@ void Bubble_sort(ElementType a[], int n){
 		printArr(a, n);
 		if(flag == 0) break;// 全程无交换
 	}
-}
+}/*最好的情况：顺序 T=O(N) 逆序 T=O(N^2) 从前往后一次比较，每次交换相邻的两个元素，对于链表排序可以实现，算法稳定*/
 
 int main(){
 	int arr[1024] = {0};
