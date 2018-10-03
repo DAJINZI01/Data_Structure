@@ -24,7 +24,7 @@ void Merge(ElementType A[], ElementType TempA[], int L, int R, int RightEnd){
 	LeftEnd = R - 1;// 右边的终点位置，假设左右两边紧挨着
 	temp = L;// 存放结果的数组的初始位置, 与L相对
 	NumElements = RightEnd - L + 1;// 计算出元素的个数
-	while(L <= LeftEnd && R <= RightEnd){
+	while(L <= LeftEnd && R <= RightEnd){ // 其中一个子序列已经空了，跳出
 		// 注意是<=，保证了排序的稳定性？
 		if(A[L] <= A[R]) TempA[temp++] = A[L++];	
 		else 		 TempA[temp++] = A[R++];
@@ -38,6 +38,7 @@ void Merge(ElementType A[], ElementType TempA[], int L, int R, int RightEnd){
 		A[RightEnd] = TempA[RightEnd];
 }
 
+// 分而治之
 void MSort(ElementType A[], ElementType TempA[], int L, int RightEnd){
 	int Center;
 	if(L < RightEnd){
@@ -52,6 +53,7 @@ void MSort(ElementType A[], ElementType TempA[], int L, int RightEnd){
 // 统一函数接口
 void Merge_sort1(ElementType A[], int N){
 	ElementType *TempA;
+	// 为什么不在Merge函数内部使用TempA
 	TempA = (ElementType *)malloc(sizeof(ElementType) * N);
 	if(TempA == NULL){
 		printf("空间不足\n");

@@ -25,12 +25,27 @@ void printArr(ElementType a[], int n){
  *		A2 = { a > privot };
  *	A[] = Quick_sort(A1, N1) 
  *			(privot)
- *	      Quick_sort(A2, N2)
+ *	      Quick_sort(A2, N2);
  * }
  *
- * 选主元
+ * 什么是快熟排序算法最好的情况？每次正好中分 T(N)=O(NlogN)
+ * 选主元 
+ * 令pivot = A[0]? 
+ * 	1 2 3 4 5 6 ... N-1 N
+ *	  2 3 4 5 6 ... N-1 N
+ *          3 4 5 6 ... N-1 N
+ *          T=O(N^2)
+ * 随机取pivot？rand()函数不便宜啊！
+ * 取头、中、尾的中位数
+
+
  * 随机取
  * 取头 中 尾的中位数
+ *
+ * 主元被选中之后，经过子集划分，被一次性的放到了最终的位置
+ * 如果有元素正好等于pivot怎么办？
+ * 	停下来交换？ 选择停下来交换
+ * 	不理他，继续移动指针？
  *
  * */
 
@@ -57,7 +72,7 @@ void Swap(ElementType *a, ElementType *b){
 	*b = temp;
 }
 
-// 取中位数
+// 取三个数中的中位数
 ElementType Median3(ElementType A[], int Left, int Right){
 	int Center = (Left + Right) / 2;
 	if(A[Left] > A[Center])
@@ -67,13 +82,12 @@ ElementType Median3(ElementType A[], int Left, int Right){
 	if(A[Center] > A[Right])
 		Swap(&A[Center], &A[Right]);
 	// A[Left] <= A[Center] <= A[Right]
-	Swap(&A[Center], &A[Right - 1]);// 将pivot藏到右边
+	Swap(&A[Center], &A[Right - 1]);// 将pivot藏到最右边
 	// 只需要考虑 A[Left + 1] -- A[Right - 2]
 	return A[Right - 1];
 }
+
 // 子集划分
-
-
 void QuickSort(ElementType A[], int Left, int Right){
 	int Privot, i, j, Cutoff = 2;
 	if(Cutoff <= Right - Left){
@@ -81,7 +95,7 @@ void QuickSort(ElementType A[], int Left, int Right){
 		i = Left; j = Right - 1;
 		for(; ;){
 			while(A[++i] < Privot);
-			while(A[--j] < Privot);
+			while(A[--j] > Privot);
 
 			if(i < j)
 				Swap(&A[i], &A[j]);

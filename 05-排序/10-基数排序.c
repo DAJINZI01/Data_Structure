@@ -122,6 +122,7 @@ void LSDRadixSort(ElementType A[], int N){
  * 基数排序
  * 	基数指的是 进制 2进制 -> 基数为2  10进制 -> 基数为10
  *	用 次位优先 (Least Significant Digit)
+ *	时间复杂度 T=O(P(N+B))
  *
  * 多关键字排序
  *
